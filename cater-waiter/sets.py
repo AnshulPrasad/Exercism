@@ -21,7 +21,7 @@ def clean_ingredients(dish_name, dish_ingredients):
     followed by the de-duped `set` of ingredients as the second item.
     """
 
-    pass
+    return (dish_name, set(dish_ingredients))
 
 
 def check_drinks(drink_name, drink_ingredients):
@@ -35,8 +35,10 @@ def check_drinks(drink_name, drink_ingredients):
     name followed by "Cocktail" (includes alcohol).
 
     """
-
-    pass
+    if set(drink_ingredients) & set(ALCOHOLS) != set([]):
+        return f"{drink_name} Cocktail"
+    else:
+        return f"{drink_name} Mocktail"
 
 
 def categorize_dish(dish_name, dish_ingredients):
@@ -51,8 +53,10 @@ def categorize_dish(dish_name, dish_ingredients):
     All dishes will "fit" into one of the categories imported from `sets_categories_data.py`
 
     """
-
-    pass
+    dictionary = {"VEGAN":VEGAN, "VEGETARIAN":VEGETARIAN,"KETO":KETO, "PALEO":PALEO, "OMNIVORE":OMNIVORE}
+    for i in dictionary.keys():
+        if set(dictionary[i]).issuperset(dish_ingredients):
+            return f"{dish_name}: {i}"
 
 
 def tag_special_ingredients(dish):
@@ -66,7 +70,7 @@ def tag_special_ingredients(dish):
     SPECIAL_INGREDIENTS constant imported from `sets_categories_data.py`.
     """
 
-    pass
+    return (dish[0], SPECIAL_INGREDIENTS & set(dish[1]))
 
 
 def compile_ingredients(dishes):
@@ -77,8 +81,10 @@ def compile_ingredients(dishes):
 
     This function should return a `set` of all ingredients from all listed dishes.
     """
-
-    pass
+    ingredients = set([])
+    for i in dishes:
+        ingredients = ingredients | i
+    return ingredients
 
 
 def separate_appetizers(dishes, appetizers):
@@ -92,7 +98,7 @@ def separate_appetizers(dishes, appetizers):
     Either list could contain duplicates and may require de-duping.
     """
 
-    pass
+    return list(set(dishes) - set(appetizers))
 
 
 def singleton_ingredients(dishes, intersection):
@@ -110,4 +116,4 @@ def singleton_ingredients(dishes, intersection):
     The function should return a `set` of ingredients that only appear in a single dish.
     """
 
-    pass
+    return compile_ingredients(dishes) - intersection
